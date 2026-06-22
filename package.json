@@ -1,0 +1,47 @@
+{
+  "name": "routing-auditor",
+  "version": "0.1.0",
+  "description": "Transparent Codex companion that audits whether a cheaper model/tier would have produced an equivalent result.",
+  "type": "module",
+  "bin": {
+    "routing-auditor": "bin/routing-auditor.ts"
+  },
+  "files": [
+    "bin",
+    "src",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "routing-auditor": "bun run bin/routing-auditor.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LivioGama/routing-auditor.git"
+  },
+  "keywords": [
+    "codex",
+    "routing",
+    "audit",
+    "model-selection",
+    "cost-optimization"
+  ],
+  "author": "Livio Gamassia",
+  "license": "MIT",
+  "dependencies": {
+    "@zed-industries/codex-acp": "^0.16.0",
+    "commander": "^12.1.0",
+    "pino": "^9.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "bun": ">=1.2.0"
+  }
+}
