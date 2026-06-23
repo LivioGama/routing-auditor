@@ -16,7 +16,7 @@ import {
   readAllPrompts,
 } from "../storage.ts";
 import { buildTaskCompletionNotice } from "./taskCompletionNotice.ts";
-import { getDataDir as getEnvDataDir, getMinimalChildEnv } from "../env.ts";
+import { getDataDir as getEnvDataDir, getMinimalChildEnv, isInternalHookProcess } from "../env.ts";
 import { captureArtifacts, captureReferencedArtifacts, isLikelyArtifactTask } from "../artifacts.ts";
 import { isPidRunning, isRoutingAuditorDaemon, readDaemonIdentity } from "../daemon-identity.ts";
 
@@ -296,6 +296,9 @@ export const runStopHook = async (): Promise<void> => {
   }
   const dataDir = getEnvDataDir(defaultDataDir());
   try {
+    if (isInternalHookProcess()) {
+      process.exit(0);
+    }
     const output = await runStopHookCore(payload, dataDir);
     if (output !== undefined) {
       process.stdout.write(output);

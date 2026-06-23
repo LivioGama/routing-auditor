@@ -157,13 +157,13 @@ Use `routing-auditor install --force` when reinstalling. It clears the queue bef
 
 ## 🛠 Usage
 
-Run Codex normally after install. The daemon is started automatically.
+Run the Codex CLI normally after install. The daemon is started automatically.
 
-When a prompt has been successfully verified by the daemon, Routing Auditor displays a completion notice on your **next** Codex prompt submission:
+When a Codex CLI prompt has been successfully verified by the daemon, Routing Auditor displays a completion notice through the Codex Stop hook:
 
 > Routing Auditor: this task could have run with routing-auditor/fast-agent (verified model: gpt-5.4-mini low).
 
-This notice appears because verification happens asynchronously in the background daemon, so it may not complete until after your current prompt finishes. The notice is shown on your next prompt to inform you of verified cheaper routes for previous tasks.
+This notice is Codex CLI-only. Codex sessions driven through ACP do not trigger Codex Stop hooks, so Routing Auditor records and verifies hook-captured CLI prompts but does not try to inject completion notices into ACP-driven sessions.
 
 ```bash
 routing-auditor losses

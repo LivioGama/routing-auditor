@@ -511,6 +511,27 @@ describe("hook subprocess integration", () => {
     expect(readQueueJobs(dataDir)).toHaveLength(0);
   });
 
+  it("runStopHook ignores internal routing-auditor ACP stop events", async () => {
+    handleUserPromptSubmit({ session_id: "internal-stop", turn_id: "turn-1", prompt: "hello" }, dataDir);
+
+    const { stdout, code } = await runHook(
+      "runStopHook",
+      JSON.stringify({ session_id: "internal-stop", turn_id: "turn-1", last_assistant_message: "internal answer" }),
+      {
+        ROUTING_AUDITOR_DATA_DIR: dataDir,
+        ROUTING_AUDITOR_INTERNAL: "1",
+        PATH: process.env.PATH ?? "",
+        HOME: os.homedir(),
+      },
+    );
+
+    expect(code).toBe(0);
+    expect(stdout).toBe("");
+    const prompts = readAllPrompts(dataDir);
+    expect(prompts).toHaveLength(1);
+    expect(prompts[0]!.actual_execution).toBeUndefined();
+  });
+
   it("hooks tolerate empty or invalid inherited Routing Auditor env vars", async () => {
     const env = {
       ROUTING_AUDITOR_DATA_DIR: dataDir,
